@@ -777,11 +777,9 @@ namespace MatchZy
             Log($"[ChangeMap] Changing map to {mapName} with delay {delay}");
             AddTimer(delay, () => {
                 if (long.TryParse(mapName, out _)) {
-                    Server.ExecuteCommand($"bot_kick");
                     Server.ExecuteCommand($"host_workshop_map \"{mapName}\"");
                 } else if (Server.IsMapValid(mapName)) {
-                    Server.ExecuteCommand($"bot_kick");
-                    Server.ExecuteCommand($"changelevel \"{mapName}\"");
+                    Server.ExecuteCommand($"changelevel {mapName}");
                 }
             });
         }
