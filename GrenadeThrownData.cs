@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace MatchZy;
+
 public class GrenadeThrownData
 {
     public Vector Position { get; private set; }
@@ -21,7 +22,8 @@ public class GrenadeThrownData
 
     public float Delay { get; set; }
 
-    public GrenadeThrownData(Vector nadePosition, QAngle nadeAngle, Vector nadeVelocity, Vector playerPosition, QAngle playerAngle, string grenadeType, DateTime thrownTime)
+    public GrenadeThrownData(Vector nadePosition, QAngle nadeAngle, Vector nadeVelocity, Vector playerPosition,
+        QAngle playerAngle, string grenadeType, DateTime thrownTime)
     {
         Position = new Vector(nadePosition.X, nadePosition.Y, nadePosition.Z);
         Angle = new QAngle(nadeAngle.X, nadeAngle.Y, nadeAngle.Z);
@@ -53,6 +55,7 @@ public class GrenadeThrownData
                 Console.WriteLine($"[GrenadeThrownData Fatal] Failed to create entity!");
                 return;
             }
+
             if (Type == "molotov") entity.SetModel("weapons/models/grenade/incendiary/weapon_incendiarygrenade.vmdl");
             entity.Elasticity = 0.33f;
             entity.IsLive = false;

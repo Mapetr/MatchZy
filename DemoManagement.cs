@@ -23,7 +23,6 @@ namespace MatchZy
 
         public void StartDemoRecording()
         {
-
             string demoFileName = FormatDemoName();
             try
             {
@@ -35,6 +34,7 @@ namespace MatchZy
                         Directory.CreateDirectory(directoryPath);
                     }
                 }
+
                 string tempDemoPath = demoPath == "" ? demoFileName : demoPath + demoFileName;
                 activeDemoFile = tempDemoPath;
                 Log($"[StartDemoRecoding] Starting demo recording, path: {tempDemoPath}");
@@ -43,12 +43,12 @@ namespace MatchZy
             }
             catch (Exception ex)
             {
-                Log($"[StartDemoRecording - FATAL] Error: {ex.Message}. Starting demo recording with path. Name: {demoFileName}");
+                Log(
+                    $"[StartDemoRecording - FATAL] Error: {ex.Message}. Starting demo recording with path. Name: {demoFileName}");
                 // This is to avoid demo loss in any case of exception
                 Server.ExecuteCommand($"tv_record {demoFileName}");
                 isDemoRecording = true;
             }
-
         }
 
         public void StopDemoRecording(float delay, string activeDemoFile, long liveMatchId, int currentMapNumber)
@@ -57,17 +57,16 @@ namespace MatchZy
             string demoPath = Path.Join(Server.GameDirectory + "/csgo/", activeDemoFile);
             AddTimer(delay, () =>
             {
-                if (isDemoRecording) 
+                if (isDemoRecording)
                 {
                     Server.ExecuteCommand($"tv_stoprecord");
                 }
-                AddTimer(15, () =>
-                {
-                    Task.Run(async () =>
+
+                AddTimer(15,
+                    () =>
                     {
-                        await UploadDemoAsync(demoPath, liveMatchId, currentMapNumber);
+                        Task.Run(async () => { await UploadDemoAsync(demoPath, liveMatchId, currentMapNumber); });
                     });
-                });
             });
         }
 
@@ -90,7 +89,8 @@ namespace MatchZy
         {
             if (demoPath == null || demoUploadURL == "")
             {
-                Log($"[UploadDemoAsync] Not able to upload demo, either demoPath or demoUploadURL is not set. demoPath: {demoPath} demoUploadURL: {demoUploadURL}");
+                Log(
+                    $"[UploadDemoAsync] Not able to upload demo, either demoPath or demoUploadURL is not set. demoPath: {demoPath} demoUploadURL: {demoUploadURL}");
                 return;
             }
 
@@ -131,11 +131,13 @@ namespace MatchZy
 
                 if (response.IsSuccessStatusCode)
                 {
-                    Log($"[UploadDemoAsync] File upload successful for matchId: {matchId} mapNumber: {mapNumber} fileName: {Path.GetFileName(demoPath)}.");
+                    Log(
+                        $"[UploadDemoAsync] File upload successful for matchId: {matchId} mapNumber: {mapNumber} fileName: {Path.GetFileName(demoPath)}.");
                 }
                 else
                 {
-                    Log($"[UploadDemoAsync ERROR] Failed to upload file. Status code: {response.StatusCode} Response: {await response.Content.ReadAsStringAsync()}");
+                    Log(
+                        $"[UploadDemoAsync ERROR] Failed to upload file. Status code: {response.StatusCode} Response: {await response.Content.ReadAsStringAsync()}");
                 }
             }
             catch (Exception e)
@@ -160,8 +162,10 @@ namespace MatchZy
             return $"{demoName}.dem";
         }
 
-        [ConsoleCommand("get5_demo_upload_header_key", "If defined, a custom HTTP header with this name is added to the HTTP requests for demos")]
-        [ConsoleCommand("matchzy_demo_upload_header_key", "If defined, a custom HTTP header with this name is added to the HTTP requests for demos")]
+        [ConsoleCommand("get5_demo_upload_header_key",
+            "If defined, a custom HTTP header with this name is added to the HTTP requests for demos")]
+        [ConsoleCommand("matchzy_demo_upload_header_key",
+            "If defined, a custom HTTP header with this name is added to the HTTP requests for demos")]
         public void DemoUploadHeaderKeyCommand(CCSPlayerController? player, CommandInfo command)
         {
             if (player != null) return;
@@ -170,8 +174,10 @@ namespace MatchZy
             if (header != "") demoUploadHeaderKey = header;
         }
 
-        [ConsoleCommand("get5_demo_upload_header_value", "If defined, the value of the custom header added to the demos sent over HTTP")]
-        [ConsoleCommand("matchzy_demo_upload_header_value", "If defined, the value of the custom header added to the demos sent over HTTP")]
+        [ConsoleCommand("get5_demo_upload_header_value",
+            "If defined, the value of the custom header added to the demos sent over HTTP")]
+        [ConsoleCommand("matchzy_demo_upload_header_value",
+            "If defined, the value of the custom header added to the demos sent over HTTP")]
         public void DemoUploadHeaderValueCommand(CCSPlayerController? player, CommandInfo command)
         {
             if (player != null) return;

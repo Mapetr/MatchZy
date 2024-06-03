@@ -7,10 +7,11 @@ namespace MatchZy;
 
 public partial class MatchZy
 {
-    public Dictionary<CsTeam, bool> teamReadyOverride = new() {
-        {CsTeam.Terrorist, false},
-        {CsTeam.CounterTerrorist, false},
-        {CsTeam.Spectator, false}
+    public Dictionary<CsTeam, bool> teamReadyOverride = new()
+    {
+        { CsTeam.Terrorist, false },
+        { CsTeam.CounterTerrorist, false },
+        { CsTeam.Spectator, false }
     };
 
     public bool allowForceReady = true;
@@ -33,7 +34,8 @@ public partial class MatchZy
         int minReady = GetTeamMinReady(team);
         (int playerCount, int readyCount) = GetTeamPlayerCount(team, false);
 
-        Log($"[IsTeamReady] team: {team} minPlayers:{minPlayers} minReady:{minReady} playerCount:{playerCount} readyCount:{readyCount}");
+        Log(
+            $"[IsTeamReady] team: {team} minPlayers:{minPlayers} minReady:{minReady} playerCount:{playerCount} readyCount:{readyCount}");
 
         if (team == (int)CsTeam.Spectator && minReady == 0)
         {
@@ -80,15 +82,18 @@ public partial class MatchZy
         foreach (var key in playerData.Keys)
         {
             if (!playerData[key].IsValid) continue;
-            if (playerData[key].TeamNum == team) {
+            if (playerData[key].TeamNum == team)
+            {
                 playerCount++;
                 if (playerReadyStatus[key] == true) readyCount++;
             }
         }
+
         return (playerCount, readyCount);
     }
 
-    public bool IsTeamForcedReady(CsTeam team) {
+    public bool IsTeamForcedReady(CsTeam team)
+    {
         return teamReadyOverride[team];
     }
 
@@ -101,7 +106,7 @@ public partial class MatchZy
         int minReady = GetTeamMinReady(player!.TeamNum);
         (int playerCount, int readyCount) = GetTeamPlayerCount(player!.TeamNum, false);
 
-        if (playerCount < minReady) 
+        if (playerCount < minReady)
         {
             // ReplyToUserCommand(player, $"You must have at least {minReady} player(s) on the server to ready up.");
             ReplyToUserCommand(player, Localizer["matchzy.rs.minreadyplayers", minReady]);
@@ -111,7 +116,8 @@ public partial class MatchZy
         foreach (var key in playerData.Keys)
         {
             if (!playerData[key].IsValid) continue;
-            if (playerData[key].TeamNum == player.TeamNum) {
+            if (playerData[key].TeamNum == player.TeamNum)
+            {
                 playerReadyStatus[key] = true;
                 // ReplyToUserCommand(playerData[key], $"Your team was force-readied by {player.PlayerName}");
                 ReplyToUserCommand(playerData[key], Localizer["matchzy.rs.forcereadiedby", player.PlayerName]);

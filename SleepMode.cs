@@ -6,7 +6,6 @@ using CounterStrikeSharp.API.Modules.Commands;
 
 namespace MatchZy
 {
-
     public partial class MatchZy
     {
         public const string sleepCfgPath = "MatchZy/sleep.cfg";
@@ -36,6 +35,7 @@ namespace MatchZy
                 ExecUnpracCommands();
                 Server.ExecuteCommand("""exec gamemode_competitive.cfg;""");
             }
+
             Log($"[StartSleepMode] MatchZy deactivated!");
         }
 
@@ -54,8 +54,8 @@ namespace MatchZy
                 ReplyToUserCommand(player, Localizer["matchzy.sleep.sleepwhenmatchstared"]);
                 return;
             }
+
             StartSleepMode();
         }
-
     }
 }

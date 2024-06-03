@@ -9,47 +9,35 @@ namespace MatchZy
 {
     public class Get5Status
     {
-        [JsonPropertyName("plugin_version")]
-        public required string PluginVersion { get; set; }
+        [JsonPropertyName("plugin_version")] public required string PluginVersion { get; set; }
 
-        [JsonPropertyName("gamestate")]
-        public required string GameState { get; set; }
+        [JsonPropertyName("gamestate")] public required string GameState { get; set; }
 
-        [JsonPropertyName("paused")]
-        public bool Paused { get; set; } = false;
+        [JsonPropertyName("paused")] public bool Paused { get; set; } = false;
 
         [JsonPropertyName("loaded_config_file")]
         public string? LoadedConfigFile { get; set; } = null;
 
-        [JsonPropertyName("matchid")]
-        public long? MatchId { get; set; } = null;
+        [JsonPropertyName("matchid")] public long? MatchId { get; set; } = null;
 
-        [JsonPropertyName("map_number")]
-        public int? MapNumber { get; set; } = null;
+        [JsonPropertyName("map_number")] public int? MapNumber { get; set; } = null;
 
-        [JsonPropertyName("round_number")]
-        public int? RoundNumber { get; set; } = -1;
+        [JsonPropertyName("round_number")] public int? RoundNumber { get; set; } = -1;
 
-        [JsonPropertyName("round_time")]
-        public int? RoundTime { get; set; } = null;
+        [JsonPropertyName("round_time")] public int? RoundTime { get; set; } = null;
 
-        [JsonPropertyName("team1")]
-        public Get5StatusTeam? Team1 { get; set; } = null;
+        [JsonPropertyName("team1")] public Get5StatusTeam? Team1 { get; set; } = null;
 
-        [JsonPropertyName("team2")]
-        public Get5StatusTeam? Team2 { get; set; } = null;
+        [JsonPropertyName("team2")] public Get5StatusTeam? Team2 { get; set; } = null;
 
-        [JsonPropertyName("maps")]
-        public string[]? Maps { get; set; } = null;
+        [JsonPropertyName("maps")] public string[]? Maps { get; set; } = null;
     }
 
     public class Get5StatusTeam
     {
-        [JsonPropertyName("name")]
-        public required string Name { get; set; }
+        [JsonPropertyName("name")] public required string Name { get; set; }
 
-        [JsonPropertyName("series_score")]
-        public required int SeriesScore { get; set; } = 0;
+        [JsonPropertyName("series_score")] public required int SeriesScore { get; set; } = 0;
 
         [JsonPropertyName("current_map_score")]
         public required int CurrentMapScore { get; set; } = 0;
@@ -57,11 +45,9 @@ namespace MatchZy
         [JsonPropertyName("connected_clients")]
         public required int ConnectedClients { get; set; } = 0;
 
-        [JsonPropertyName("ready")]
-        public required bool Ready { get; set; } = false;
+        [JsonPropertyName("ready")] public required bool Ready { get; set; } = false;
 
-        [JsonPropertyName("side")]
-        public required string Side { get; set; }
+        [JsonPropertyName("side")] public required string Side { get; set; }
     }
 
     public enum Get5GameState : int
@@ -80,14 +66,11 @@ namespace MatchZy
 
     public class G5WebAvailable
     {
-        [JsonPropertyName("gamestate")]
-        public required int GameState { get; init; }
+        [JsonPropertyName("gamestate")] public required int GameState { get; init; }
 
-        [JsonPropertyName("available")]
-        public int Available { get; } = 1;
+        [JsonPropertyName("available")] public int Available { get; } = 1;
 
-        [JsonPropertyName("plugin_version")]
-        public string PluginVersion { get; } = "0.15.0";
+        [JsonPropertyName("plugin_version")] public string PluginVersion { get; } = "0.15.0";
     }
 
     public partial class MatchZy
@@ -172,7 +155,8 @@ namespace MatchZy
         [ConsoleCommand("get5_web_available", "Returns get5 web available")]
         public void Get5WebAvailable(CCSPlayerController? player, CommandInfo command)
         {
-            command.ReplyToCommand(JsonSerializer.Serialize(new G5WebAvailable { GameState = (int) getGet5Gamestate() }));
+            command.ReplyToCommand(JsonSerializer.Serialize(new G5WebAvailable
+                { GameState = (int)getGet5Gamestate() }));
         }
 
         private Get5GameState getGet5Gamestate()
@@ -232,7 +216,7 @@ namespace MatchZy
 
         private string mapGet5GameState(Get5GameState state)
         {
-            switch(state)
+            switch (state)
             {
                 case Get5GameState.None:
                     return "none";
